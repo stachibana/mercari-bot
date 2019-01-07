@@ -127,7 +127,7 @@ def handle_text(event):
           "type": "bubble",
           "hero": {
             "type": "image",
-            "url": 'https://9788baa8.ngrok.io' + '/imgs/mercari_%s.png' % (r.get(event.source.user_id)),
+            "url": request.url_root.replace('http://', 'https://') + '/imgs/mercari_%s.png' % (r.get(event.source.user_id)),
             "size": "full",
             "aspectRatio": "1:1",
             "aspectMode": "cover"
@@ -229,7 +229,7 @@ def handle_image(event):
             "action": {
               "type": "uri",
               "label": "ダウンロード",
-              "uri": 'https://9788baa8.ngrok.io' + "/%s/%s_overlay.jpg" % (dirname, filename)
+              "uri": request.url_root.replace('http://', 'https://') + "/%s/%s_overlay.jpg" % (dirname, filename)
             }
           }
         ],
@@ -248,6 +248,49 @@ def handle_image(event):
 def handle_follow(event):
     r.set(event.source.user_id, '01')
     line_bot_api.link_rich_menu_to_user(event.source.user_id, 'richmenu-4318d8c8dba62fc14de3fced2943e413')
+
+    json = {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "友達追加ありがとう！画像を送るとメルカリの出品用に「専用」「送料込み」等のテキストを追加するBotだよ。気に入ったら友達にもオススメしてね！'""
+            "weight": "bold",
+            "size": "md",
+            "wrap": True
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "primary",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "画像を選択",
+              "uri": 'line://nv/cameraRoll/multi'
+            }
+          }
+        ],
+        "flex": 0
+      }
+    }
+    line_bot_api.reply_message(
+        event.reply_token,
+        [
+            FlexSendMessage(alt_text="代替テキスト", contents=BubbleContainer.new_from_json_dict(json))
+            #TextSendMessage(text='https://9788baa8.ngrok.io' + "/%s/%s_overlay.jpg" % (dirname, filename)),
+        ]
+    )
+
     line_bot_api.reply_message(
         event.reply_token,
         [
