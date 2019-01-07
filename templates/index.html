@@ -1,0 +1,52 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+  {{ super() }}
+  <link type="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+{% endblock %}
+
+{%- block metas %}
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+  <link rel="apple-touch-icon" href="/apple-touch-icon-152x152.png" sizes="152x152">
+{%- endblock metas %}
+
+{% block title %}機能リクエスト{% endblock %}
+
+{% block content %}
+<div class="container">
+  <form>
+    <div class="form-group">
+      <label for="form_inquiry">内容を入力して「送る」をタップしてください♪</label>
+      <textarea class="form-control" id="form_inquiry" rows="4"></textarea>
+    </div>
+  </form>
+  <button id="btn" type="button" class="btn btn-primary btn-block">送る♪</button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+  <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+  <script>
+    window.onload = function (e) {
+        liff.init(function (data) {
+          //alert(JSON.stringify(data))
+        });
+    };
+
+    $('#btn').on('click', function() {
+      liff.sendMessages([
+        {
+          type: 'text',
+          text: '送信完了♪気に入ったら友達にもおすすめしてね♪\n\n===\n\n' + document.getElementById("form_inquiry").value
+        }
+      ]).then(function () {
+        liff.closeWindow();
+      }).catch(function (error) {
+        window.alert('Error sending message: ' + error.message);
+      });
+    });
+  </script>
+
+{% endblock %}
