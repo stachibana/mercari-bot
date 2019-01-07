@@ -5,14 +5,12 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import (
     MessageEvent,
     ImageMessage,
-    PostbackEvent,
     FollowEvent,
     FlexSendMessage,
     BubbleContainer,
     TextMessage,
     TextSendMessage
 )
-from io import BytesIO, StringIO
 from PIL import Image
 import redis
 import urllib.parse
@@ -36,7 +34,6 @@ handler = WebhookHandler(os.environ.get('CHANNEL_SECRET'))
 
 @app.route("/")
 def show_inquiry():
-    #return 'OK'
     return render_template('index.html')
 
 @app.route("/", methods=['POST'])
@@ -190,7 +187,6 @@ def handle_image(event):
         img.write(message_content.content)
 
     image_base = Image.open("%s/%s.jpg" % (dirname, filename))
-    #app.logger.info("%d:%d" % (image_base.width, image_base.height))
 
     image_overlay = Image.open('imgs/mercari_%s.png' % (r.get(event.source.user_id)))
 
@@ -240,7 +236,6 @@ def handle_image(event):
         event.reply_token,
         [
             FlexSendMessage(alt_text="代替テキスト", contents=BubbleContainer.new_from_json_dict(json))
-            #TextSendMessage(text='https://9788baa8.ngrok.io' + "/%s/%s_overlay.jpg" % (dirname, filename)),
         ]
     )
 
@@ -287,7 +282,6 @@ def handle_follow(event):
         event.reply_token,
         [
             FlexSendMessage(alt_text="代替テキスト", contents=BubbleContainer.new_from_json_dict(json))
-            #TextSendMessage(text='https://9788baa8.ngrok.io' + "/%s/%s_overlay.jpg" % (dirname, filename)),
         ]
     )
 
