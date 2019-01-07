@@ -10,6 +10,7 @@ from linebot.models import (
     FlexSendMessage,
     BubbleContainer,
     TextMessage,
+    TextSendMessage
 )
 from io import BytesIO, StringIO
 from PIL import Image
@@ -250,7 +251,7 @@ def handle_follow(event):
     line_bot_api.reply_message(
         event.reply_token,
         [
-            TextSendMessage(text='友達追加ありがとう！'),
+            TextSendMessage(text='友達追加ありがとう！画像を送るとメルカリの出品用に「専用」「送料込み」等のテキストを追加するBotだよ。気に入ったら友達にもオススメしてね！'),
         ]
     )
 
