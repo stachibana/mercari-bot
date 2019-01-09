@@ -262,7 +262,7 @@ def handle_image(event):
             FlexSendMessage(
                 alt_text="代替テキスト", contents=BubbleContainer.new_from_json_dict(json)
             ),
-            ImageSendMessage(original_content_url=original_image_url, preview_image_url=preview_image_url))
+            ImageSendMessage(original_content_url=original_image_url, preview_image_url=preview_image_url)
         ],
     )
 
