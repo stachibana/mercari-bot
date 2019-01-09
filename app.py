@@ -273,7 +273,7 @@ def handle_follow(event):
             "type": "image",
             "url": request.url_root.replace("http://", "https://") + "/imgs/mercari_info.png",
             "size": "full",
-            "aspectRatio": "8:5",
+            "aspectRatio": "8:4",
             "aspectMode": "cover",
         },
         "body": {
