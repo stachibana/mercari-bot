@@ -10,6 +10,7 @@ from linebot.models import (
     BubbleContainer,
     TextMessage,
     TextSendMessage,
+    ImageSendMessage
 )
 from PIL import Image
 import redis
@@ -250,12 +251,20 @@ def handle_image(event):
             "flex": 0,
         },
     }
+    original_image_url = request.url_root.replace("http://", "https://")
+        + "/%s/%s_overlay.jpg" % (dirname, filename)
+    image_base.thumbnail((240, 240))
+    image_base.save("%s/%s_overlay_240.jpg" % (dirname, filename), quality=100)
+    preview_image_url = request.url_root.replace("http://", "https://")
+        + "/%s/%s_overlay_240.jpg" % (dirname, filename)
+
     line_bot_api.reply_message(
         event.reply_token,
         [
             FlexSendMessage(
                 alt_text="代替テキスト", contents=BubbleContainer.new_from_json_dict(json)
-            )
+            ),
+            ImageSendMessage(original_content_url=original_image_url, preview_image_url=preview_image_url))
         ],
     )
 
@@ -313,15 +322,6 @@ def handle_follow(event):
         [
             FlexSendMessage(
                 alt_text="代替テキスト", contents=BubbleContainer.new_from_json_dict(json)
-            )
-        ],
-    )
-
-    line_bot_api.reply_message(
-        event.reply_token,
-        [
-            TextSendMessage(
-                text="友達追加ありがとう！画像を送るとメルカリの出品用に「専用」「送料込み」等のテキストを追加するBotだよ。気に入ったら友達にもオススメしてね！"
             )
         ],
     )
