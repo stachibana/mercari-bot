@@ -251,12 +251,10 @@ def handle_image(event):
             "flex": 0,
         },
     }
-    original_image_url = request.url_root.replace("http://", "https://")
-        + "/%s/%s_overlay.jpg" % (dirname, filename)
+    original_image_url = request.url_root.replace("http://", "https://") + "/%s/%s_overlay.jpg" % (dirname, filename)
     image_base.thumbnail((240, 240))
     image_base.save("%s/%s_overlay_240.jpg" % (dirname, filename), quality=100)
-    preview_image_url = request.url_root.replace("http://", "https://")
-        + "/%s/%s_overlay_240.jpg" % (dirname, filename)
+    preview_image_url = request.url_root.replace("http://", "https://") + "/%s/%s_overlay_240.jpg" % (dirname, filename)
 
     line_bot_api.reply_message(
         event.reply_token,
