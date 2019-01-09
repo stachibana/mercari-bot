@@ -10,7 +10,7 @@ from linebot.models import (
     BubbleContainer,
     TextMessage,
     TextSendMessage,
-    ImageSendMessage
+    ImageSendMessage,
 )
 from PIL import Image
 import redis
@@ -216,15 +216,22 @@ def handle_image(event):
     )
     image_base.save("%s/%s_overlay.jpg" % (dirname, filename), quality=100)
 
-    original_image_url = request.url_root.replace("http://", "https://") + "/%s/%s_overlay.jpg" % (dirname, filename)
+    original_image_url = request.url_root.replace(
+        "http://", "https://"
+    ) + "/%s/%s_overlay.jpg" % (dirname, filename)
     image_base.thumbnail((240, 240))
     image_base.save("%s/%s_overlay_240.jpg" % (dirname, filename), quality=100)
-    preview_image_url = request.url_root.replace("http://", "https://") + "/%s/%s_overlay_240.jpg" % (dirname, filename)
+    preview_image_url = request.url_root.replace(
+        "http://", "https://"
+    ) + "/%s/%s_overlay_240.jpg" % (dirname, filename)
 
     line_bot_api.reply_message(
         event.reply_token,
         [
-            ImageSendMessage(original_content_url=original_image_url, preview_image_url=preview_image_url)
+            ImageSendMessage(
+                original_content_url=original_image_url,
+                preview_image_url=preview_image_url,
+            )
         ],
     )
 
@@ -240,7 +247,8 @@ def handle_follow(event):
         "type": "bubble",
         "hero": {
             "type": "image",
-            "url": request.url_root.replace("http://", "https://") + "/imgs/mercari_info.png",
+            "url": request.url_root.replace("http://", "https://")
+            + "/imgs/mercari_info.png",
             "size": "full",
             "aspectRatio": "8:4",
             "aspectMode": "cover",
