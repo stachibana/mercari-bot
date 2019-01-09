@@ -271,7 +271,7 @@ def handle_follow(event):
         "type": "bubble",
         "hero": {
             "type": "image",
-            "url": request.url_root.replace("http://", "https://") + "/imgs/mercari_thumb.png",
+            "url": request.url_root.replace("http://", "https://") + "/imgs/mercari_info.png",
             "size": "full",
             "aspectRatio": "8:5",
             "aspectMode": "cover",
