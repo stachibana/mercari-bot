@@ -269,13 +269,20 @@ def handle_follow(event):
 
     json = {
         "type": "bubble",
+        "hero": {
+            "type": "image",
+            "url": request.url_root.replace("http://", "https://") + "/imgs/mercari_thumb.png",
+            "size": "full",
+            "aspectRatio": "8:5",
+            "aspectMode": "cover",
+        },
         "body": {
             "type": "box",
             "layout": "vertical",
             "contents": [
                 {
                     "type": "text",
-                    "text": "友達追加ありがとう！画像を送るとメルカリの出品用に「専用」「送料込み」等のテキストを追加するBotだよ。気に入ったら友達にもオススメしてね！'",
+                    "text": "友達追加ありがとう！画像を送るとメルカリの出品用に「専用」「送料込み」等のテキストを追加するBotだよ。\n\n気に入ったら友達にもオススメしてね！",
                     "weight": "bold",
                     "size": "md",
                     "wrap": True,
