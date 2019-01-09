@@ -216,41 +216,6 @@ def handle_image(event):
     )
     image_base.save("%s/%s_overlay.jpg" % (dirname, filename), quality=100)
 
-    json = {
-        "type": "bubble",
-        "body": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-                {
-                    "type": "text",
-                    "text": "加工完了♪",
-                    "weight": "bold",
-                    "size": "md",
-                    "wrap": True,
-                }
-            ],
-        },
-        "footer": {
-            "type": "box",
-            "layout": "vertical",
-            "spacing": "sm",
-            "contents": [
-                {
-                    "type": "button",
-                    "style": "primary",
-                    "height": "sm",
-                    "action": {
-                        "type": "uri",
-                        "label": "ダウンロード",
-                        "uri": request.url_root.replace("http://", "https://")
-                        + "/%s/%s_overlay.jpg" % (dirname, filename),
-                    },
-                }
-            ],
-            "flex": 0,
-        },
-    }
     original_image_url = request.url_root.replace("http://", "https://") + "/%s/%s_overlay.jpg" % (dirname, filename)
     image_base.thumbnail((240, 240))
     image_base.save("%s/%s_overlay_240.jpg" % (dirname, filename), quality=100)
@@ -259,9 +224,6 @@ def handle_image(event):
     line_bot_api.reply_message(
         event.reply_token,
         [
-            FlexSendMessage(
-                alt_text="代替テキスト", contents=BubbleContainer.new_from_json_dict(json)
-            ),
             ImageSendMessage(original_content_url=original_image_url, preview_image_url=preview_image_url)
         ],
     )
